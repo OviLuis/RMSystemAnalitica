@@ -15,26 +15,26 @@ def analyze_data():
     # dataframe para obtener número que  más veces se repite del rango reportado
     df_max_measure_x_range = df.groupby(['measure_value']).size().reset_index(name='counts')
     df_max_measure_x_range = df_max_measure_x_range.sort_values(by=['counts'])
-    df_max_measure_x_range.plot.bar(x='measure_value', y='counts', rot=0)
+    df_max_measure_x_range.plot.bar(x='measure_value', y='counts', rot=0, **{'title': 'Número de veces de una lectura reportada'})
 
     # consumo max por dispositivo
     df_max_consumption_x_device = df.groupby(['device_id'])['measure_value'].max().reset_index(name='max_measure')
-    df_max_consumption_x_device.plot.barh(x='device_id', y='max_measure')
+    df_max_consumption_x_device.plot.barh(x='device_id', y='max_measure', **{'title': 'Consumo máximo por dispositivo'})
 
     # numero de lecturas por dispositivo
     df_num_measures_x_device = df.groupby(['device_id']).size().reset_index(name='measures_x_device')
-    df_num_measures_x_device.plot.barh(x='device_id', y='measures_x_device')
+    df_num_measures_x_device.plot.barh(x='device_id', y='measures_x_device', **{'title': 'Número de lecturas por dispositivo'})
 
     # consumo promedio por dispositivo
     df_mean_consumption_x_device = df.groupby(['device_id'])['measure_value'].mean().reset_index(name='mean_consumption')
-    df_mean_consumption_x_device.plot.barh(x='device_id', y='mean_consumption')
+    df_mean_consumption_x_device.plot.barh(x='device_id', y='mean_consumption', **{'title': 'Consumo promedio por dispositivo'})
 
     # se transforma la fecha registrada a formato ddmmyyyyHHMM para obtener el numero de mediciones por minuto
     df['measure_date'] = pd.to_datetime(df.measure_date)
     df['_date'] = df['measure_date'].dt.strftime('%d%m%Y%H%M')
     df_num_measure_x_minute = df.groupby(['_date']).size().reset_index(name='counts')
 
-    df_num_measure_x_minute.plot.barh(x='_date', y='counts')
+    df_num_measure_x_minute.plot.barh(x='_date', y='counts', **{'title': 'Número de mediciones por minuto'})
 
     plt.show()
 
